@@ -1,24 +1,150 @@
-# taskflow_v1
+# Onescript Web Vue
 
-## Project setup
+Это шаблон проекта для разработки web приложения, который сэкономит вам время и позволит быстро начать разработку полноценного spa web приложения.
+
+Используется вот такой стек:
+
+* [Onescript Web](http://web.oscript.io/)
+* [Vue.js](https://v3.ru.vuejs.org/ru/guide/introduction.html)
+* [Quasar framework](https://quasar.dev/) только UI
+
+Необходимые инструкции:
+
+* [Документация Onescript](https://oscript.io/syntax/)
+* [Документация Onescript Web](http://web.oscript.io/syntax/)
+* [Статья по разработке на Onescript.Web](https://infostart.ru/1c/articles/1063641/)
+* [Документация Vue.js](https://v3.ru.vuejs.org/ru/guide/introduction.html)
+* [Видеокурс по Vue.js](https://www.youtube.com/watch?v=XzLuMtDelGk&t=9076s)
+* [Документация Quasar framework](https://quasar.dev/introduction-to-quasar)
+
+Необходимые знания:
+
+* Onescript
+* HTML
+* CSS (SCSS)
+* JavaScript - достаточно основ
+* Понимание работы web технологий
+* Понимание работы паттерна MVC
+
+## Установка
+
+Для начала разработки на вашем устройстве обязательно должны быть установлены:
+
+* [Visual Studio Code](https://code.visualstudio.com/download)
+* [Node js](https://nodejs.org/en/download/)
+* [Onescript](https://github.com/EvilBeaver/OneScript)
+* [Onescript Web](https://github.com/EvilBeaver/OneScript.Web) - просто распакуйте в любую папку
+
+### Создание проекта и установка зависимостей
+
+1. Скачиваем архив исходников данного репозитория и распаковываем его в папку проекта
+2. Открываем эту папку в Visual Studio Code и открываем терминал
+3. Устанавливаем все зависимости node js
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+4. Переходим в папку src
+
 ```
-npm run serve
+cd src
 ```
 
-### Compiles and minifies for production
+5. Устанавливаем все зависисмости onescript
+
 ```
-npm run build
+opm install --local
 ```
 
-### Lints and fixes files
+6. Возвращаемся в корневую папку
+
 ```
-npm run lint
+cd ../
+```
+7. Открываем файл package-lock.json и меняем в нём название проекта (только маленькие буквы без пробелов). "my-web-project" меняем на имя вашего проекта
+
+```
+{
+  "name": "my-web-project",
+  "version": "0.1.0",
+  "lockfileVersion": 2,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "my-web-project",
+      "version": "0.1.0",
+```
+8. Открываем файл package.json и меняем в нём название проекта (только маленькие буквы без пробелов). "my-web-project" меняем на имя вашего проекта
+
+```
+{
+  "name": "my-web-project",
+  "version": "0.1.0",
+  "private": true,
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+9. Возвращаемся к терминалу и вводим команду для обновления файлов клиентского приложения (данная команда перекомпилирует статические файлы в /src/wwwroot)
+
+```
+npm run dev
+```
+
+### Запуск и отладка
+
+Запуск и отладка сервера будет происходить на стороне onescript web.
+Для того, чтобы это работало, нужно создать конфигурацию файла отладки.
+
+1. В  Visual Studio Code откываем представление "Запуск и отладка"
+2. Создаём файл конфигурации Onescript.Web
+3. Редактируем файл launch.json в папке .vscode:
+
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Отладка",
+            "type": "oscript.web",
+            "request": "launch",
+            "appDir": "${workspaceRoot}\\src", - вот тут незабудьте добавить \\src
+            "env": {},
+            "runtimeExecutable": "<Путь к папке oscript web>\\OneScript.WebHost.exe",
+            "runtimeArgs": [],
+            "debugPort": 2801
+        }
+    ]
+}
+```
+
+Далее для запуска нам потребуется только нажать ```F5```
+
+При запуске сервер проведет проверку кода и запустит сервер на порту ```5000``` и приложение будет доступно по адресу <http://localhost:5000/>
+
+### Разработка
+
+При разработке клиентской части приложения необязательно перезагружать сервер onescript web, достаточно будет выполнить перекомпиляцию с помощью ```npm run dev```. Соответственно, если вы сделали изменения на серверной части, достаточно будет перезапустить отладку.
+
+##### Рекомендации для написания контроллеров
+
+Вот шаблон, по которому следует разрабатывать контроллеры:
+
+```
+ДанныеДляОтправки = Неопределено;
+КодСостояния = 200;
+
+Попытка
+	<Тут делаем логику контроллера, меняем код состояния и устанавливаем данные для отправки, 
+        не стесняемся генерировать исключение, т.к 
+        метод "ПодготовитьОшибку" позаботится о возврате ошибки на клиент>
+Исключение
+	Возврат ОбработчикЗапросов.ПодготовитьОшибку(ИнформацияОбОшибке());
+КонецПопытки;	
+
+Возврат ОбработчикЗапросов.ПодготовитьОтвет(КодСостояния, ДанныеДляОтправки);
+```
+Вы можете вести разработку так, как удобно вам, я лишь даю рекомендации.
+
+### Итог
+
+После всех действий вы получите шаблонный проект, который позволит вам без особых сложностей разрабатывать любое spa web приложение.

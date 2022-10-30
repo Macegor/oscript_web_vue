@@ -1,20 +1,65 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import store from "../store";
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.state.auth.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/");
+};
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.state.auth.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/login");
+};
 
 const routes = [
   {
-    path: "/",
-    name: "home",
-    component: HomeView,
+    path: "/:catchAll(.*)",
+    name: "NotFound",
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/",
+    name: "index",
+    component: () => import("../layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "indexMain",
+        component: () => import("../views/indexPage.vue"),
+      },
+    ],
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/page",
+    name: "page",
+    component: () => import("../layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "indexPage",
+        component: () => import("../views/pagePage.vue"),
+      },
+    ],
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../layouts/CleanLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "indexLogin",
+        component: () => import("../views/shared/loginPage.vue"),
+      },
+    ],
+    beforeEnter: ifNotAuthenticated,
   },
 ];
 

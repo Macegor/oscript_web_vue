@@ -64,7 +64,7 @@ cd ../
 ```
 7. Открываем файл package-lock.json и меняем в нём название проекта (только маленькие буквы без пробелов). "my-web-project" меняем на имя вашего проекта
 
-```
+```json
 {
   "name": "my-web-project",
   "version": "0.1.0",
@@ -77,7 +77,7 @@ cd ../
 ```
 8. Открываем файл package.json и меняем в нём название проекта (только маленькие буквы без пробелов). "my-web-project" меняем на имя вашего проекта
 
-```
+```json
 {
   "name": "my-web-project",
   "version": "0.1.0",
@@ -99,7 +99,7 @@ npm run dev
 2. Создаём файл конфигурации Onescript.Web
 3. Редактируем файл launch.json в папке .vscode:
 
-```
+```json
 {
     "version": "0.2.0",
     "configurations": [

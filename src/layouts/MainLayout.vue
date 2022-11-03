@@ -3,7 +3,7 @@
     <q-header elevated class="bg-primary text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title> Task flow </q-toolbar-title>
+        <q-toolbar-title> My Web Project </q-toolbar-title>
         <q-btn-dropdown color="white" text-color="black" :label="userName">
           <q-list>
             <q-item clickable v-close-popup @click="logout">
